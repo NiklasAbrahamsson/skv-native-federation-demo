@@ -1,0 +1,26 @@
+<header class="shell-header">
+  <div class="header-left">
+    <span class="logo">SKV</span>
+    <nav>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        Home
+      </a>
+      <a routerLink="/sub-app" routerLinkActive="active">
+        Sub-App
+      </a>
+    </nav>
+  </div>
+
+  <div class="header-right">
+    @if (isAuthenticated()) {
+      <span class="user-info">{{ displayName() }}</span>
+      <button class="btn btn-logout" (click)="logout()">Log out</button>
+    } @else {
+      <button class="btn btn-login" (click)="login()">Log in</button>
+    }
+  </div>
+</header>
+
+<main class="shell-content">
+  <router-outlet />
+</main>

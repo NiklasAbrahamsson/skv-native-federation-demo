@@ -1,0 +1,48 @@
+<div class="dashboard">
+  <h1>Sub-App Dashboard</h1>
+  <p class="badge">Remote micro frontend</p>
+
+  <section class="auth-status">
+    <h2>Shared Auth State</h2>
+    @if (isAuthenticated()) {
+      <div class="auth-card authenticated">
+        <p class="status">Authenticated</p>
+        <dl>
+          <dt>Name</dt>
+          <dd>{{ currentUser()!.displayName }}</dd>
+          <dt>Email</dt>
+          <dd>{{ currentUser()!.email }}</dd>
+          <dt>Role</dt>
+          <dd>{{ currentUser()!.role }}</dd>
+          <dt>ID</dt>
+          <dd>{{ currentUser()!.id }}</dd>
+        </dl>
+        <p class="explanation">
+          This data comes from the <code>AuthService</code> in
+          <code>&#64;skv/shared</code>. The shell set this user — this remote
+          reads the same singleton instance via Native Federation.
+        </p>
+      </div>
+    } @else {
+      <div class="auth-card unauthenticated">
+        <p class="status">Not authenticated</p>
+        <p class="explanation">
+          Go back to the shell header and click <strong>Log in</strong>.
+          Then return here — you'll see the user data appear without any
+          reload, because both shell and this remote share the same
+          <code>AuthService</code> instance.
+        </p>
+      </div>
+    }
+  </section>
+
+  <section class="nav-demo">
+    <h2>Sub-App Internal Routing</h2>
+    <p>This remote has its own child routes, all handled within the shell's router:</p>
+    <div class="detail-links">
+      <a [routerLink]="['details', '1']" class="detail-link">View Item 1</a>
+      <a [routerLink]="['details', '2']" class="detail-link">View Item 2</a>
+      <a [routerLink]="['details', '3']" class="detail-link">View Item 3</a>
+    </div>
+  </section>
+</div>

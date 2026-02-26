@@ -1,0 +1,20 @@
+{
+  "name": "skv-native-federation-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Native Federation micro frontend demo with Angular 20",
+  "workspaces": [
+    "shared",
+    "shell",
+    "sub-app"
+  ],
+  "scripts": {
+    "build:shared": "npm run build --workspace=shared",
+    "build:sub-app": "npm run build --workspace=sub-app",
+    "build:shell": "npm run build --workspace=shell",
+    "build:all": "npm run build:shared && npm run build:sub-app && npm run build:shell",
+    "start:sub-app": "npm run start --workspace=sub-app",
+    "start:shell": "npm run start --workspace=shell",
+    "start:all": "npm run start:sub-app & sleep 10 && npm run start:shell"
+  }
+}

@@ -1,0 +1,21 @@
+<div class="details">
+  <a routerLink="../.." class="back-link">Back to dashboard</a>
+
+  <h1>Details for Item {{ id() }}</h1>
+  <p class="badge">Remote micro frontend — child route</p>
+
+  <div class="detail-card">
+    <p>
+      This page demonstrates that the sub-app manages its own child routes
+      internally. The URL is <code>/sub-app/details/{{ id() }}</code> — the
+      shell's router delegates everything under <code>/sub-app</code> to
+      this remote's route configuration.
+    </p>
+    <p>
+      The route parameter <code>:id</code> is bound to the component via
+      Angular's <code>withComponentInputBinding()</code> feature and the
+      <code>input.required()</code> signal input — no need to inject
+      <code>ActivatedRoute</code>.
+    </p>
+  </div>
+</div>

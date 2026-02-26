@@ -1,0 +1,40 @@
+<div class="home">
+  <h1>Native Federation Demo</h1>
+  <p class="subtitle">Shell Application — Angular 20</p>
+
+  <div class="info-cards">
+    <div class="card">
+      <h2>How it works</h2>
+      <p>
+        This shell application is the <strong>host</strong>. It handles
+        authentication, navigation, and orchestration. Sub-applications are
+        loaded at runtime via <code>loadRemoteModule</code> using
+        Native Federation.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Independent deployment</h2>
+      <p>
+        Each sub-app is built and deployed separately. The shell reads
+        <code>federation.manifest.json</code> at startup to discover remote
+        entry points. No rebuild of the shell is needed when a sub-app
+        is redeployed.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Shared singleton services</h2>
+      <p>
+        The <code>AuthService</code> from <code>&#64;skv/shared</code> is a
+        singleton across the entire federation. Log in here in the shell
+        and navigate to the sub-app — it will see the same authenticated user.
+      </p>
+    </div>
+  </div>
+
+  <p class="cta">
+    Use the navigation above to visit the <strong>Sub-App</strong> section.
+    Try logging in first to see the shared auth state in action.
+  </p>
+</div>

@@ -1,0 +1,56 @@
+.home {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+    color: #1a1a2e;
+  }
+
+  .subtitle {
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+
+  h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #1a1a2e;
+  }
+
+  p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  code {
+    background: #f0f0f0;
+    padding: 0.15em 0.4em;
+    border-radius: 3px;
+    font-size: 0.85em;
+  }
+}
+
+.cta {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
+}

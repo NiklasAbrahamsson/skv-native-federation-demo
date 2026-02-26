@@ -1,0 +1,30 @@
+{
+  "name": "@skv/shared",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./dist/fesm2022/skv-shared.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/fesm2022/skv-shared.mjs"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    }
+  },
+  "scripts": {
+    "build": "ng-packagr -p ng-package.json"
+  },
+  "peerDependencies": {
+    "@angular/core": "^20.0.0",
+    "rxjs": "~7.8.0"
+  },
+  "devDependencies": {
+    "@angular/compiler": "^20.3.0",
+    "@angular/compiler-cli": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "ng-packagr": "^20.0.0",
+    "typescript": "~5.9.2"
+  }
+}
