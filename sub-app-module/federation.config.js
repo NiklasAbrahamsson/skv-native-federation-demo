@@ -4,7 +4,14 @@ const {
 } = require('@angular-architects/native-federation/config');
 
 module.exports = withNativeFederation({
-  name: 'shell',
+  name: 'sub-app-module',
+
+  exposes: {
+    // Expose an NgModule with RouterModule.forChild(routes) — the classic
+    // NgModule approach to federated lazy loading. Compare with sub-app
+    // which exposes a bare Routes array (standalone approach).
+    './Module': './src/app/remote-entry/remote.module.ts',
+  },
 
   shared: {
     ...shareAll({

@@ -1,0 +1,52 @@
+<div class="dashboard">
+  <h1>Sub-App Module Dashboard</h1>
+  <p class="badge">Remote micro frontend (NgModule)</p>
+
+  <section class="auth-status">
+    <h2>Shared Auth State</h2>
+    @if (isAuthenticated()) {
+      <div class="auth-card authenticated">
+        <p class="status">Authenticated</p>
+        <dl>
+          <dt>Name</dt>
+          <dd>{{ currentUser()!.displayName }}</dd>
+          <dt>Email</dt>
+          <dd>{{ currentUser()!.email }}</dd>
+          <dt>Role</dt>
+          <dd>{{ currentUser()!.role }}</dd>
+          <dt>ID</dt>
+          <dd>{{ currentUser()!.id }}</dd>
+        </dl>
+        <p class="explanation">
+          This data comes from the <code>AuthService</code> in
+          <code>&#64;skv/shared</code>. This remote uses <strong>NgModules</strong>
+          (not standalone components), yet it shares the same singleton
+          <code>AuthService</code> instance as the shell and the standalone sub-app.
+        </p>
+      </div>
+    } @else {
+      <div class="auth-card unauthenticated">
+        <p class="status">Not authenticated</p>
+        <p class="explanation">
+          Go back to the shell header and click <strong>Log in</strong>.
+          Then return here — you'll see the user data appear without any
+          reload. This NgModule-based remote reads the same
+          <code>AuthService</code> singleton as the standalone sub-app.
+        </p>
+      </div>
+    }
+  </section>
+
+  <section class="nav-demo">
+    <h2>Sub-App Module Internal Routing</h2>
+    <p>
+      This remote uses <code>RouterModule.forChild()</code> inside an NgModule,
+      which the shell lazy-loads. The routing works identically to the standalone sub-app:
+    </p>
+    <div class="detail-links">
+      <a [routerLink]="['details', '1']" class="detail-link">View Item 1</a>
+      <a [routerLink]="['details', '2']" class="detail-link">View Item 2</a>
+      <a [routerLink]="['details', '3']" class="detail-link">View Item 3</a>
+    </div>
+  </section>
+</div>

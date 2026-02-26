@@ -6,15 +6,18 @@
   "workspaces": [
     "shared",
     "shell",
-    "sub-app"
+    "sub-app",
+    "sub-app-module"
   ],
   "scripts": {
     "build:shared": "npm run build --workspace=shared",
     "build:sub-app": "npm run build --workspace=sub-app",
+    "build:sub-app-module": "npm run build --workspace=sub-app-module",
     "build:shell": "npm run build --workspace=shell",
-    "build:all": "npm run build:shared && npm run build:sub-app && npm run build:shell",
+    "build:all": "npm run build:shared && npm run build:sub-app && npm run build:sub-app-module && npm run build:shell",
     "start:sub-app": "npm run start --workspace=sub-app",
+    "start:sub-app-module": "npm run start --workspace=sub-app-module",
     "start:shell": "npm run start --workspace=shell",
-    "start:all": "npm run start:sub-app & sleep 10 && npm run start:shell"
+    "start:all": "npm run start:sub-app & npm run start:sub-app-module & sleep 10 && npm run start:shell"
   }
 }

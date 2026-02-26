@@ -19,6 +19,11 @@ module.exports = withNativeFederation({
       strictVersion: true,
       requiredVersion: 'auto',
     }),
+    '@skv/shared': {
+      singleton: true,
+      strictVersion: true,
+      requiredVersion: '1.0.0',
+    },
   },
 
   skip: [

@@ -9,11 +9,15 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    // The sub-app's routes are lazy-loaded at runtime via Native Federation.
-    // 'sub-app' must match the key in federation.manifest.json.
-    // './routes' must match the key in the sub-app's federation.config.js exposes.
+    // Standalone sub-app: exposes a Routes array, loaded directly.
     path: 'sub-app',
     loadChildren: () =>
       loadRemoteModule('sub-app', './routes').then((m) => m.SUB_APP_ROUTES),
+  },
+  {
+    // NgModule sub-app: exposes an NgModule with RouterModule.forChild().
+    path: 'sub-app-module',
+    loadChildren: () =>
+      loadRemoteModule('sub-app-module', './Module').then((m) => m.RemoteModule),
   },
 ];

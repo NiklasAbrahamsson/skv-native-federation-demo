@@ -1,0 +1,22 @@
+<div class="details">
+  <a routerLink="../.." class="back-link">Back to dashboard</a>
+
+  <h1>Details for Item {{ id }}</h1>
+  <p class="badge">Remote micro frontend — child route (NgModule)</p>
+
+  <div class="detail-card">
+    <p>
+      This page demonstrates that the NgModule-based sub-app manages its own
+      child routes. The URL is <code>/sub-app-module/details/{{ id }}</code> —
+      the shell's router delegates everything under <code>/sub-app-module</code>
+      to this remote's <code>RemoteModule</code> which uses
+      <code>RouterModule.forChild()</code>.
+    </p>
+    <p>
+      The route parameter <code>:id</code> is read via
+      <code>ActivatedRoute.snapshot.paramMap</code> — the traditional NgModule
+      approach. Compare with the standalone sub-app which uses
+      <code>input.required()</code> with <code>withComponentInputBinding()</code>.
+    </p>
+  </div>
+</div>
