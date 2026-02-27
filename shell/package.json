@@ -32,6 +32,7 @@
     "@angular/router": "^20.3.0",
     "@skv/shared": "1.0.0",
     "@softarc/native-federation-node": "^3.3.4",
+    "@module-federation/enhanced": "^0.8.0",
     "es-module-shims": "^1.5.12",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

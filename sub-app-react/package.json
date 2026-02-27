@@ -1,0 +1,27 @@
+{
+  "name": "sub-app-react",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsx build/build.ts",
+    "start": "tsx build/dev-server.ts",
+    "watch": "tsx build/build.ts --watch"
+  },
+  "dependencies": {
+    "@softarc/native-federation-runtime": "3.3.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.2"
+  },
+  "devDependencies": {
+    "@softarc/native-federation": "3.3.4",
+    "@softarc/native-federation-esbuild": "3.3.4",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.6",
+    "@types/node": "^22.15.0",
+    "esbuild": "^0.25.0",
+    "tsx": "^4.19.0",
+    "typescript": "~5.9.2"
+  }
+}

@@ -24,6 +24,10 @@ module.exports = withNativeFederation({
     'rxjs/fetch',
     'rxjs/testing',
     'rxjs/webSocket',
+    // Skip all @module-federation packages from Native Federation sharing.
+    // These are used by the MF runtime bridge and must NOT be processed
+    // by Native Federation's shared dependency system.
+    /^@module-federation/,
   ],
 
   features: {
