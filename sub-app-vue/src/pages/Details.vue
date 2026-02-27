@@ -17,19 +17,19 @@ const id = route.params.id as string;
     <router-link to="/" class="back-link">Back to dashboard</router-link>
 
     <h1>Details for Item {{ id }}</h1>
-    <p class="badge vue-badge">Vue micro frontend -- child route</p>
+    <p class="badge">Vue micro frontend — child route</p>
 
     <div class="detail-card">
       <p>
         This page demonstrates that the Vue sub-app manages its own child
         routes internally using Vue Router. The URL
-        is <code>/sub-app-vue/details/{{ id }}</code> -- the shell's Angular
+        is <code>/sub-app-vue/details/{{ id }}</code> — the shell's Angular
         Router delegates everything under <code>/sub-app-vue</code> to this
         remote's Custom Element, and Vue Router handles the rest.
       </p>
       <p>
         The route parameter <code>:id</code> is read via Vue
-        Router's <code>useRoute()</code> composable -- the Vue equivalent of
+        Router's <code>useRoute()</code> composable — the Vue equivalent of
         Angular's <code>input.required()</code> with route binding, or React
         Router's <code>useParams()</code> hook.
       </p>
@@ -40,14 +40,26 @@ const id = route.params.id as string;
 <style scoped>
 .details {
   max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.details h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+  color: #1a1a2e;
 }
 
 .back-link {
   display: inline-block;
   margin-bottom: 1rem;
-  color: #42b883;
+  color: #1a1a2e;
+  font-size: 0.9rem;
   text-decoration: none;
-  font-weight: 500;
+}
+
+.back-link::before {
+  content: '\2190  ';
 }
 
 .back-link:hover {
@@ -56,28 +68,27 @@ const id = route.params.id as string;
 
 .badge {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 4px;
+  background: #e8f5e9;
+  color: #2e7d32;
   font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-}
-
-.vue-badge {
-  background: #42b883;
-  color: white;
+  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
 }
 
 .detail-card {
-  background: #f5f5f5;
-  border-radius: 8px;
-  padding: 1.25rem;
+  background: #fff;
   border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
 }
 
 .detail-card p {
-  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
   line-height: 1.6;
+  color: #444;
+  margin-bottom: 1rem;
 }
 
 .detail-card p:last-child {
@@ -85,8 +96,8 @@ const id = route.params.id as string;
 }
 
 .detail-card code {
-  background: #e8e8e8;
-  padding: 0.1rem 0.3rem;
+  background: #f0f0f0;
+  padding: 0.1em 0.35em;
   border-radius: 3px;
   font-size: 0.9em;
 }

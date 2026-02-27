@@ -1,23 +1,20 @@
-import { Link } from 'react-router';
+import { Link, useOutletContext } from 'react-router';
 import type { UserData } from '../types';
 
-interface DashboardProps {
-  userData: UserData | null;
-}
-
-export function Dashboard({ userData }: DashboardProps) {
+export function Dashboard() {
+  const userData = useOutletContext<UserData | null>();
   const isAuthenticated = userData !== null;
 
   return (
-    <div style={{ maxWidth: 800 }}>
-      <h1>Sub-App React Dashboard</h1>
-      <span style={styles.badge}>React micro frontend</span>
+    <div className="dashboard" style={styles.dashboard}>
+      <h1 style={styles.h1}>Sub-App React Dashboard</h1>
+      <p style={styles.badge}>React micro frontend</p>
 
-      <section style={{ marginBottom: '2rem' }}>
-        <h2>Shared Auth State</h2>
+      <section style={styles.authStatus}>
+        <h2 style={styles.h2}>Shared Auth State</h2>
         {isAuthenticated ? (
-          <div style={{ ...styles.authCard, ...styles.authenticated }}>
-            <p style={styles.status}>Authenticated</p>
+          <div style={styles.authCard}>
+            <p style={{ ...styles.status, color: '#2e7d32' }}>Authenticated</p>
             <dl style={styles.dl}>
               <dt style={styles.dt}>Name</dt>
               <dd style={styles.dd}>{userData.displayName}</dd>
@@ -29,31 +26,35 @@ export function Dashboard({ userData }: DashboardProps) {
               <dd style={styles.dd}>{userData.id}</dd>
             </dl>
             <p style={styles.explanation}>
-              This data comes from the Angular shell's <code>AuthService</code>{' '}
-              in <code>@skv/shared</code>. The shell passes it to this React
-              micro frontend via Custom Element attributes — bridging Angular
-              signals to React state through the DOM.
+              This data comes from the <code style={styles.code}>AuthService</code>{' '}
+              in <code style={styles.code}>@skv/shared</code>. The shell passes
+              it to this React micro frontend via Custom Element attributes —
+              bridging Angular signals to React state through the DOM.
             </p>
           </div>
         ) : (
-          <div style={{ ...styles.authCard, ...styles.unauthenticated }}>
-            <p style={styles.status}>Not authenticated</p>
+          <div style={styles.authCard}>
+            <p style={{ ...styles.status, color: '#c62828' }}>
+              Not authenticated
+            </p>
             <p style={styles.explanation}>
               Go back to the shell header and click <strong>Log in</strong>.
               Then return here — you'll see the user data appear without any
-              reload, because the Angular <code>WrapperComponent</code> passes
-              the auth state from the shared <code>AuthService</code> into this
-              React app via element attributes.
+              reload, because the Angular <code style={styles.code}>WrapperComponent</code>{' '}
+              passes the auth state from the shared{' '}
+              <code style={styles.code}>AuthService</code> into this React app
+              via element attributes.
             </p>
           </div>
         )}
       </section>
 
-      <section>
-        <h2>React Internal Routing</h2>
-        <p>
+      <section style={styles.navDemo}>
+        <h2 style={styles.h2}>React Internal Routing</h2>
+        <p style={styles.navText}>
           This remote uses React Router for its own child routes, all rendered
-          inside the Angular shell's <code>&lt;router-outlet&gt;</code>:
+          inside the Angular shell's{' '}
+          <code style={styles.code}>&lt;router-outlet&gt;</code>:
         </p>
         <div style={styles.detailLinks}>
           <Link to="/details/1" style={styles.detailLink}>
@@ -72,63 +73,92 @@ export function Dashboard({ userData }: DashboardProps) {
 }
 
 const styles: Record<string, React.CSSProperties> = {
+  dashboard: {
+    maxWidth: 800,
+    margin: '0 auto',
+    padding: '2rem 1rem',
+  },
+  h1: {
+    fontSize: '1.8rem',
+    marginBottom: '0.25rem',
+    color: '#1a1a2e',
+  },
+  h2: {
+    fontSize: '1.2rem',
+    marginBottom: '0.75rem',
+    color: '#333',
+  },
   badge: {
     display: 'inline-block',
-    background: '#61dafb',
-    color: '#222',
-    padding: '0.25rem 0.75rem',
-    borderRadius: 4,
+    background: '#e3f2fd',
+    color: '#1565c0',
     fontSize: '0.8rem',
-    fontWeight: 600,
-    marginBottom: '1.5rem',
+    fontWeight: 500,
+    padding: '0.2rem 0.6rem',
+    borderRadius: 12,
+    marginBottom: '2rem',
+  },
+  authStatus: {
+    marginBottom: '2rem',
   },
   authCard: {
+    background: '#fff',
     borderRadius: 8,
-    padding: '1.25rem',
-    marginTop: '0.75rem',
-  },
-  authenticated: {
-    background: '#e3f2fd',
-    border: '1px solid #90caf9',
-  },
-  unauthenticated: {
-    background: '#fff3e0',
-    border: '1px solid #ffcc80',
+    padding: '1.5rem',
+    border: '1px solid #e0e0e0',
   },
   status: {
-    fontWeight: 700,
-    marginBottom: '0.5rem',
+    fontWeight: 600,
+    marginBottom: '1rem',
+    fontSize: '1rem',
   },
   dl: {
     display: 'grid',
-    gridTemplateColumns: 'auto 1fr',
-    gap: '0.25rem 1rem',
-    margin: '0.75rem 0',
+    gridTemplateColumns: '80px 1fr',
+    gap: '0.4rem 1rem',
+    marginBottom: '1rem',
   },
   dt: {
-    fontWeight: 600,
-    color: '#555',
+    fontWeight: 500,
+    color: '#666',
+    fontSize: '0.9rem',
   },
   dd: {
     margin: 0,
+    fontSize: '0.9rem',
   },
   explanation: {
     fontSize: '0.85rem',
     color: '#666',
-    marginTop: '0.75rem',
+    lineHeight: 1.5,
+    margin: 0,
+  },
+  code: {
+    background: '#f0f0f0',
+    padding: '0.1em 0.35em',
+    borderRadius: 3,
+    fontSize: '0.9em',
+  },
+  navDemo: {
+    marginBottom: '2rem',
+  },
+  navText: {
+    fontSize: '0.9rem',
+    color: '#555',
+    marginBottom: '1rem',
   },
   detailLinks: {
     display: 'flex',
     gap: '0.75rem',
-    marginTop: '0.75rem',
   },
   detailLink: {
     display: 'inline-block',
     padding: '0.5rem 1rem',
-    background: '#61dafb',
-    color: '#222',
+    background: '#1565c0',
+    color: '#fff',
+    borderRadius: 6,
     textDecoration: 'none',
-    borderRadius: 4,
-    fontWeight: 500,
+    fontSize: '0.9rem',
+    transition: 'background 0.15s',
   },
 };

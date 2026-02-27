@@ -10,8 +10,8 @@ import { App } from './App';
  * The basePath is set by the Angular shell (e.g. '/sub-app-react')
  * so that React Router handles only the routes under that prefix.
  *
- * The userData is passed through to the App layout component, which
- * in turn passes it to child routes that need it (Dashboard).
+ * The userData is threaded through via React Router's Outlet context,
+ * so child routes can access it via useOutletContext().
  */
 export function createAppRouter(basePath: string, userData: UserData | null) {
   const routes: RouteObject[] = [
@@ -21,7 +21,7 @@ export function createAppRouter(basePath: string, userData: UserData | null) {
       children: [
         {
           index: true,
-          element: <Dashboard userData={userData} />,
+          element: <Dashboard />,
         },
         {
           path: 'details/:id',

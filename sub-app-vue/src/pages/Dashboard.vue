@@ -13,12 +13,12 @@ const isAuthenticated = computed(() => currentUser.value !== null);
 <template>
   <div class="dashboard">
     <h1>Sub-App Vue Dashboard</h1>
-    <p class="badge vue-badge">Vue micro frontend</p>
+    <p class="badge">Vue micro frontend</p>
 
     <section class="auth-status">
       <h2>Shared Auth State</h2>
-      <div v-if="isAuthenticated" class="auth-card authenticated">
-        <p class="status">Authenticated</p>
+      <div v-if="isAuthenticated" class="auth-card">
+        <p class="status authenticated">Authenticated</p>
         <dl>
           <dt>Name</dt>
           <dd>{{ currentUser!.displayName }}</dd>
@@ -36,8 +36,8 @@ const isAuthenticated = computed(() => currentUser.value !== null);
           to Vue reactive refs through the DOM.
         </p>
       </div>
-      <div v-else class="auth-card unauthenticated">
-        <p class="status">Not authenticated</p>
+      <div v-else class="auth-card">
+        <p class="status unauthenticated">Not authenticated</p>
         <p class="explanation">
           Go back to the shell header and click <strong>Log in</strong>.
           Then return here — you'll see the user data appear without any
@@ -66,20 +66,31 @@ const isAuthenticated = computed(() => currentUser.value !== null);
 <style scoped>
 .dashboard {
   max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.dashboard h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+  color: #1a1a2e;
+}
+
+.dashboard h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  color: #333;
 }
 
 .badge {
   display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 4px;
+  background: #e8f5e9;
+  color: #2e7d32;
   font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-}
-
-.vue-badge {
-  background: #42b883;
-  color: white;
+  font-weight: 500;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
 }
 
 .auth-status {
@@ -87,66 +98,85 @@ const isAuthenticated = computed(() => currentUser.value !== null);
 }
 
 .auth-card {
+  background: #fff;
   border-radius: 8px;
-  padding: 1.25rem;
-  margin-top: 0.75rem;
-}
-
-.auth-card.authenticated {
-  background: #e8f5e9;
-  border: 1px solid #a5d6a7;
-}
-
-.auth-card.unauthenticated {
-  background: #fff3e0;
-  border: 1px solid #ffcc80;
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
 }
 
 .status {
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.status.authenticated {
+  color: #2e7d32;
+}
+
+.status.unauthenticated {
+  color: #c62828;
 }
 
 dl {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.25rem 1rem;
-  margin: 0.75rem 0;
+  grid-template-columns: 80px 1fr;
+  gap: 0.4rem 1rem;
+  margin-bottom: 1rem;
 }
 
 dt {
-  font-weight: 600;
-  color: #555;
+  font-weight: 500;
+  color: #666;
+  font-size: 0.9rem;
 }
 
 dd {
   margin: 0;
+  font-size: 0.9rem;
 }
 
 .explanation {
   font-size: 0.85rem;
   color: #666;
-  margin-top: 0.75rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.explanation code {
+  background: #f0f0f0;
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.nav-demo {
+  margin-bottom: 2rem;
+}
+
+.nav-demo p {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1rem;
 }
 
 .detail-links {
   display: flex;
   gap: 0.75rem;
-  margin-top: 0.75rem;
 }
 
 .detail-link {
   display: inline-block;
   padding: 0.5rem 1rem;
-  background: #42b883;
-  color: white;
+  background: #2e7d32;
+  color: #fff;
   text-decoration: none;
-  border-radius: 4px;
-  font-weight: 500;
+  border-radius: 6px;
+  font-size: 0.9rem;
   transition: background 0.2s;
 }
 
 .detail-link:hover {
-  background: #369970;
+  background: #1b5e20;
 }
 </style>
