@@ -19,6 +19,11 @@ import { getShared } from './app/shared/federation-helpers';
     name: 'shell',
     remotes: [
       {
+        name: 'sub-app-react',
+        entry: 'http://localhost:4203/remoteEntry.js',
+        type: 'esm',
+      },
+      {
         name: 'sub-app-vue',
         entry: 'http://localhost:4204/remoteEntry.js',
         type: 'esm',

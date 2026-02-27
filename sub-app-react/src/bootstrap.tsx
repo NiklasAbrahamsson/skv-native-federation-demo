@@ -1,56 +1,32 @@
 /**
  * Bootstrap module for the React micro frontend.
  *
- * This file registers a Custom Element (<sub-app-react>) that wraps the
- * entire React application. This is the recommended pattern for cross-
- * framework micro frontends with Native Federation:
+ * This file registers a Custom Element (<sub-app-react>) that wraps
+ * the entire React application. This follows the same pattern as sub-app-vue:
  *
- * 1. The Angular shell calls loadRemoteModule('sub-app-react', './web-component')
+ * 1. The Angular shell calls loadRemote('sub-app-react/web-component')
+ *    via @module-federation/enhanced/runtime
  * 2. That triggers this file, which registers the custom element
  * 3. The Angular WrapperComponent creates a <sub-app-react> DOM element
  * 4. The browser calls connectedCallback(), which mounts React into it
  *
  * Auth state is received from the Angular shell via element attributes,
- * bridging Angular signals -> DOM attributes -> React props.
- *
- * NOTE: We import from 'react-dom' (not 'react-dom/client') and use
- * tsconfig "jsx": "react" (not "react-jsx") to avoid subpath imports
- * like 'react/jsx-runtime' and 'react-dom/client'. Native Federation's
- * import map only maps top-level packages, so subpath bare specifiers
- * would fail at runtime.
+ * bridging Angular signals -> DOM attributes -> React state.
  */
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { App } from './App';
-
-/**
- * User data shape matching the @skv/shared User interface.
- */
-export interface UserData {
-  id: string;
-  displayName: string;
-  email: string;
-  role: string;
-}
-
-// react-dom in React 19 exports createRoot from the top-level entry,
-// but the TypeScript types still only declare it on 'react-dom/client'.
-// We cast through any to access it at runtime.
-const createRoot = (ReactDOM as any).createRoot as (
-  container: Element | DocumentFragment
-) => { render(children: React.ReactNode): void; unmount(): void };
-
-interface ReactRoot {
-  render(children: React.ReactNode): void;
-  unmount(): void;
-}
+import { createRoot, type Root } from 'react-dom/client';
+import { RouterProvider } from 'react-router';
+import { createAppRouter } from './router';
+import type { UserData } from './types';
 
 class SubAppReactElement extends HTMLElement {
-  private root: ReactRoot | null = null;
+  private reactRoot: Root | null = null;
+  private mountPoint: HTMLDivElement | null = null;
+  private userData: UserData | null = null;
+  private basePath = '/sub-app-react';
 
   /**
    * Observed attributes — when the Angular wrapper sets these,
-   * attributeChangedCallback fires and we re-render with new props.
+   * attributeChangedCallback fires and we update the React app.
    */
   static get observedAttributes() {
     return ['user-data', 'base-path'];
@@ -60,41 +36,61 @@ class SubAppReactElement extends HTMLElement {
     this.mountReact();
   }
 
-  attributeChangedCallback() {
-    // Re-render when attributes change (e.g., user logs in/out)
-    if (this.root) {
-      this.mountReact();
+  attributeChangedCallback(
+    name: string,
+    _oldValue: string | null,
+    newValue: string | null
+  ) {
+    if (name === 'user-data') {
+      this.userData = this.parseUserData(newValue);
+    } else if (name === 'base-path') {
+      this.basePath = newValue || '/sub-app-react';
     }
+
+    // Re-render React with updated data.
+    // React Router is recreated to reflect the new state since
+    // createBrowserRouter doesn't support dynamic basename changes.
+    // In practice, basePath never changes — only userData does.
+    this.renderApp();
   }
 
   disconnectedCallback() {
-    // Clean up React tree when the element is removed from the DOM.
-    // This prevents memory leaks when navigating away in the shell.
-    if (this.root) {
-      this.root.unmount();
-      this.root = null;
+    if (this.reactRoot) {
+      this.reactRoot.unmount();
+      this.reactRoot = null;
+    }
+    if (this.mountPoint) {
+      this.mountPoint.remove();
+      this.mountPoint = null;
     }
   }
 
   private mountReact() {
-    const userData = this.parseUserData();
-    const basePath = this.getAttribute('base-path') || '/sub-app-react';
+    if (this.reactRoot) return;
 
-    if (!this.root) {
-      this.root = createRoot(this);
-    }
+    // Parse initial attribute values
+    this.userData = this.parseUserData(this.getAttribute('user-data'));
+    const bp = this.getAttribute('base-path');
+    if (bp) this.basePath = bp;
 
-    this.root.render(
-      React.createElement(
-        React.StrictMode,
-        null,
-        React.createElement(App, { userData, basePath })
-      )
-    );
+    // Create a mount point inside the custom element
+    this.mountPoint = document.createElement('div');
+    this.appendChild(this.mountPoint);
+
+    // Create React root
+    this.reactRoot = createRoot(this.mountPoint);
+
+    this.renderApp();
   }
 
-  private parseUserData(): UserData | null {
-    const raw = this.getAttribute('user-data');
+  private renderApp() {
+    if (!this.reactRoot) return;
+
+    const router = createAppRouter(this.basePath, this.userData);
+    this.reactRoot.render(<RouterProvider router={router} />);
+  }
+
+  private parseUserData(raw: string | null): UserData | null {
     if (!raw) return null;
     try {
       return JSON.parse(raw) as UserData;

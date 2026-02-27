@@ -1,29 +1,64 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Dashboard } from './pages/Dashboard';
-import { Details } from './pages/Details';
-import type { UserData } from './bootstrap';
+import { Outlet } from 'react-router';
+import type { UserData } from './types';
 
-export interface AppProps {
+interface AppProps {
   userData: UserData | null;
-  basePath: string;
 }
 
 /**
- * Root React component for the micro frontend.
+ * Root component for the React micro frontend.
  *
- * Uses React Router with a `basename` that matches the path the Angular
- * shell mounts this remote under. This lets React Router handle internal
- * navigation (e.g. /sub-app-react/details/1) while the shell's Angular
- * Router delegates the entire /sub-app-react/* subtree here.
+ * Displays a framework badge and auth state info at the top,
+ * then renders the active child route via React Router's <Outlet />.
+ *
+ * The userData prop is updated reactively by the Custom Element wrapper
+ * whenever the Angular shell's AuthService signal changes.
  */
-export function App({ userData, basePath }: AppProps) {
+export function App({ userData }: AppProps) {
+  const isAuthenticated = userData !== null;
+
   return (
-    <BrowserRouter basename={basePath}>
-      <Routes>
-        <Route path="/" element={<Dashboard userData={userData} />} />
-        <Route path="/details/:id" element={<Details />} />
-      </Routes>
-    </BrowserRouter>
+    <div style={styles.app}>
+      <div style={styles.badge}>React 19 + Vite + Module Federation</div>
+      {isAuthenticated ? (
+        <div style={styles.authInfo}>
+          Logged in as: <strong>{userData.displayName}</strong> ({userData.role})
+        </div>
+      ) : (
+        <div style={{ ...styles.authInfo, ...styles.authInfoGuest }}>
+          Not logged in (use the shell to log in)
+        </div>
+      )}
+      <Outlet />
+    </div>
   );
 }
+
+const styles: Record<string, React.CSSProperties> = {
+  app: {
+    padding: '1.5rem',
+    fontFamily: 'system-ui, -apple-system, sans-serif',
+  },
+  badge: {
+    display: 'inline-block',
+    background: '#61dafb',
+    color: '#222',
+    padding: '0.25rem 0.75rem',
+    borderRadius: 4,
+    fontSize: '0.8rem',
+    fontWeight: 600,
+    marginBottom: '1rem',
+  },
+  authInfo: {
+    background: '#e3f2fd',
+    borderLeft: '4px solid #61dafb',
+    padding: '0.75rem 1rem',
+    marginBottom: '1.5rem',
+    borderRadius: '0 4px 4px 0',
+    fontSize: '0.9rem',
+  },
+  authInfoGuest: {
+    background: '#fff3e0',
+    borderLeftColor: '#ff9800',
+  },
+};

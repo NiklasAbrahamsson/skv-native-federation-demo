@@ -1,5 +1,4 @@
 {
   "sub-app": "http://localhost:4201/remoteEntry.json",
-  "sub-app-module": "http://localhost:4202/remoteEntry.json",
-  "sub-app-react": "http://localhost:4203/remoteEntry.json"
+  "sub-app-module": "http://localhost:4202/remoteEntry.json"
 }

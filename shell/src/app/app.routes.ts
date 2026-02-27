@@ -22,10 +22,9 @@ export const routes: Routes = [
       loadRemoteModule('sub-app-module', './Module').then((m) => m.RemoteModule),
   },
   {
-    // React sub-app: exposes a Web Component, loaded via WrapperComponent.
-    // The '**' wildcard ensures all child routes (e.g. /sub-app-react/details/1)
-    // are captured by this route and delegated to React Router inside the
-    // custom element, rather than being handled by Angular's router.
+    // React sub-app: uses @module-federation/vite (Webpack MF protocol),
+    // bridged into this Native Federation shell via @module-federation/enhanced
+    // runtime. Like the Vue sub-app, it exposes a Web Component.
     path: 'sub-app-react',
     children: [
       {
@@ -36,6 +35,8 @@ export const routes: Routes = [
             remoteName: 'sub-app-react',
             exposedModule: './web-component',
             elementName: 'sub-app-react',
+            // Flag to indicate this remote uses Module Federation (not Native Federation)
+            useModuleFederation: true,
           },
         },
       },
